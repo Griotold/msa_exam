@@ -1,5 +1,7 @@
 package com.spart.msa_exam.auth.application.service;
 
+import com.spart.msa_exam.auth.application.common.exception.AuthException;
+import com.spart.msa_exam.auth.application.common.exception.ErrorCode;
 import com.spart.msa_exam.auth.application.dto.SignUpRequest;
 import com.spart.msa_exam.auth.application.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.entity.User;
@@ -27,6 +29,10 @@ public class AuthService {
      */
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest) {
+        // userId 중복 체크
+        if (userRepository.findById(signUpRequest.userId()).isPresent()) {
+            throw new AuthException(ErrorCode.DUPLICATE_USERNAME);
+        }
         User user = User.create(signUpRequest.userId(), signUpRequest.username(),
                 passwordEncoder.encode(signUpRequest.password()),
                 Role.of(signUpRequest.role()));

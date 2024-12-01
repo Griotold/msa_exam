@@ -62,7 +62,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("잘못된 비밀번호로 로그인 실패 테스트")
+    @DisplayName("잘못된 비밀번호로 로그인을 시도하면 IllegalArgumentException 예외가 발생한다.")
     void signInFailWithWrongPassword() {
         // given
         SignUpRequest signUpRequest = new SignUpRequest("testId", "testName", "password", "customer");
@@ -75,11 +75,26 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 사용자로 로그인 실패 테스트")
+    @DisplayName("존재하지 않는 사용자로 로그인을 시도하면 IllegalArgumentException 예외가 발생한다.")
     void signInFailWithNonExistentUser() {
         // when & then
         assertThatThrownBy(() -> authService.signIn("nonexistent", "password"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid user ID or password");
+    }
+
+    @Test
+    @DisplayName("이미 존재하는 userId로 회원가입 시도하면 IllegalArgumentException 예외가 발생한다.")
+    void signUpFailWithExistingUserId() {
+        // given
+        SignUpRequest initialRequest = new SignUpRequest("existingId", "testName", "password", "customer");
+        authService.signUp(initialRequest);
+
+        SignUpRequest duplicateRequest = new SignUpRequest("existingId", "anotherName", "anotherPassword", "customer");
+
+        // when & then
+        assertThatThrownBy(() -> authService.signUp(duplicateRequest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("User ID already exists");
     }
 }
