@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoleTest {
 
-    @DisplayName("")
+    @DisplayName("r")
     @Test
     void test() {
         // given
