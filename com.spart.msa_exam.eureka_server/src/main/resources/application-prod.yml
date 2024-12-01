@@ -1,0 +1,10 @@
+server:
+  port: ${EUREKA_PORT:19090}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://${EUREKA_HOST:localhost}:${EUREKA_PORT:19090}/eureka/
+  instance:
+    secure-port-enabled: true
+    non-secure-port-enabled: false
