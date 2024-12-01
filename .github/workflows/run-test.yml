@@ -27,6 +27,6 @@ jobs:
           java-version: '17'
       - name: Test ${{ matrix.service }}
         run: |
-          cd com.sparta.msa_exam.${{ matrix.service }}
+          cd com.spart.msa_exam.${{ matrix.service }}
           chmod +x ./gradlew
           ./gradlew clean test
