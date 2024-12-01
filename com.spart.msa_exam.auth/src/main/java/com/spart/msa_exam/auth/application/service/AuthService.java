@@ -5,60 +5,19 @@ import com.spart.msa_exam.auth.application.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.entity.User;
 import com.spart.msa_exam.auth.domain.enums.Role;
 import com.spart.msa_exam.auth.domain.repository.UserRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import com.spart.msa_exam.auth.infra.config.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
-
+@RequiredArgsConstructor
 @Service
 public class AuthService {
 
-    @Value("${spring.application.name}")
-    private String issuer;
-
-    @Value("${service.jwt.access-expiration}")
-    private Long accessExpiration;
-
-    private final SecretKey secretKey;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    /**
-     * AuthService 생성자.
-     * Base64 URL 인코딩된 비밀 키를 디코딩하여 HMAC-SHA 알고리즘에 적합한 SecretKey 객체를 생성합니다.
-     *
-     * @param secretKey Base64 URL 인코딩된 비밀 키
-     */
-    public AuthService(@Value("${service.jwt.secret-key}") String secretKey,
-                       UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
-        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    /**
-     * 사용자 ID를 받아 JWT 액세스 토큰을 생성합니다.
-     *
-     * @param userId 사용자 ID
-     * @return 생성된 JWT 액세스 토큰
-     */
-    public String createAccessToken(String userId, Role role) {
-        return Jwts.builder()
-                .claim("user_id", userId)
-                .claim("role", role.name())
-                .issuer(issuer)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + accessExpiration))
-                .signWith(secretKey, io.jsonwebtoken.SignatureAlgorithm.HS512)
-                .compact();
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * 사용자 등록
@@ -89,6 +48,6 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid user ID or password");
         }
 
-        return createAccessToken(user.getUserId(), user.getRole());
+        return jwtTokenProvider.createAccessToken(user.getUserId(), user.getRole());
     }
 }
