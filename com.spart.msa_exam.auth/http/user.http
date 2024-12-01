@@ -3,10 +3,10 @@ POST localhost:19091/auth/sign-up
 Content-Type: application/json
 
 {
-  "userId": "chadId",
-  "username": "chad",
+  "userId": "bradId",
+  "username": "brad",
   "password": "1234",
-  "role": "customer"
+  "role": "manager"
 }
 
 ### 로그인
@@ -14,6 +14,6 @@ POST localhost:19091/auth/sign-in
 Content-Type: application/json
 
 {
-  "userId": "chadId",
+  "userId": "bradId",
   "password": "1234"
 }
