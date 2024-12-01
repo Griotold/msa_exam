@@ -48,10 +48,10 @@ public class AuthService {
      */
     public String signIn(String userId, String password) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID or password"));
+                .orElseThrow(() -> new AuthException(ErrorCode.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Invalid user ID or password");
+            throw new AuthException(ErrorCode.INVALID_PASSWORD);
         }
 
         return jwtTokenProvider.createAccessToken(user.getUserId(), user.getRole());

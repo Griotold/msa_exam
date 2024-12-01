@@ -1,6 +1,7 @@
 package com.spart.msa_exam.auth.application.service;
 
 
+import com.spart.msa_exam.auth.application.common.exception.AuthException;
 import com.spart.msa_exam.auth.application.dto.SignUpRequest;
 import com.spart.msa_exam.auth.application.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.entity.User;
@@ -62,7 +63,7 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("잘못된 비밀번호로 로그인을 시도하면 IllegalArgumentException 예외가 발생한다.")
+    @DisplayName("잘못된 비밀번호로 로그인을 시도하면 AuthException 예외가 발생한다.")
     void signInFailWithWrongPassword() {
         // given
         SignUpRequest signUpRequest = new SignUpRequest("testId", "testName", "password", "customer");
@@ -70,21 +71,21 @@ class AuthServiceTest {
 
         // when & then
         assertThatThrownBy(() -> authService.signIn("testId", "wrongPassword"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Invalid user ID or password");
+                .isInstanceOf(AuthException.class)
+                .hasMessage("유저 ID 또는 비밀번호 정보가 일치하지 않습니다.");
     }
 
     @Test
-    @DisplayName("존재하지 않는 사용자로 로그인을 시도하면 IllegalArgumentException 예외가 발생한다.")
+    @DisplayName("존재하지 않는 사용자로 로그인을 시도하면 AuthException 예외가 발생한다.")
     void signInFailWithNonExistentUser() {
         // when & then
         assertThatThrownBy(() -> authService.signIn("nonexistent", "password"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Invalid user ID or password");
+                .isInstanceOf(AuthException.class)
+                .hasMessage("일치하는 유저 정보가 존재하지 않습니다.");
     }
 
     @Test
-    @DisplayName("이미 존재하는 userId로 회원가입 시도하면 IllegalArgumentException 예외가 발생한다.")
+    @DisplayName("이미 존재하는 userId로 회원가입 시도하면 AuthException 예외가 발생한다.")
     void signUpFailWithExistingUserId() {
         // given
         SignUpRequest initialRequest = new SignUpRequest("existingId", "testName", "password", "customer");
@@ -94,7 +95,7 @@ class AuthServiceTest {
 
         // when & then
         assertThatThrownBy(() -> authService.signUp(duplicateRequest))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("User ID already exists");
+                .isInstanceOf(AuthException.class)
+                .hasMessage("유저 이름이 이미 존재합니다.");
     }
 }
