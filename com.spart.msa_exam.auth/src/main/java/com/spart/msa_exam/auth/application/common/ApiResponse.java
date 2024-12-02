@@ -1,4 +1,4 @@
-package com.spart.msa_exam.auth.interfaces.web;
+package com.spart.msa_exam.auth.application.common;
 
 import org.springframework.http.HttpStatus;
 

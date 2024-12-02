@@ -3,8 +3,8 @@ POST localhost:19091/auth/sign-up
 Content-Type: application/json
 
 {
-  "userId": "stickId",
-  "username": "stick",
+  "userId": "pattId",
+  "username": "patt",
   "password": "1234",
   "role": "manager"
 }
@@ -14,6 +14,6 @@ POST localhost:19091/auth/sign-in
 Content-Type: application/json
 
 {
-  "userId": "stickId",
+  "userId": "pattId",
   "password": "1234"
 }
