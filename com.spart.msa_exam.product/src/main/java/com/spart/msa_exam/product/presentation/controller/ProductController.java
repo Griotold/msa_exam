@@ -1,6 +1,8 @@
 package com.spart.msa_exam.product.presentation.controller;
 
 import com.spart.msa_exam.product.application.common.ApiResponse;
+import com.spart.msa_exam.product.application.common.exception.ProductErrorCode;
+import com.spart.msa_exam.product.application.common.exception.ProductException;
 import com.spart.msa_exam.product.application.usecase.ProductCreateUseCase;
 import com.spart.msa_exam.product.domain.service.dto.ProductCreateResponse;
 import com.spart.msa_exam.product.presentation.request.ProductCreateRequest;
@@ -21,7 +23,7 @@ public class ProductController {
                                                      @RequestHeader(value = "X-User-Id", required = true) String userId,
                                                      @RequestHeader(value = "X-Role", required = true) String role) {
         if (!"MANAGER".equals(role)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied. User role is not MANAGER.");
+            throw new ProductException(ProductErrorCode.FORBIDDEN_ACCESS);
         }
         ProductCreateResponse response = productCreateUseCase.execute(request.toCommand());
         return ApiResponse.success(HttpStatus.OK, "Product Create success", response);
