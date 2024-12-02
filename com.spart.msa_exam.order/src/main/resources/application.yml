@@ -1,0 +1,27 @@
+server:
+  port: 19092
+
+spring:
+  application:
+    name: order-service
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090/eureka/
+
+management:
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+  tracing:
+    sampling:
+      probability: 1.0
