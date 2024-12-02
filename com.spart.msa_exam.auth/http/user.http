@@ -3,17 +3,26 @@ POST localhost:19091/auth/sign-up
 Content-Type: application/json
 
 {
-  "userId": "sillyId",
-  "username": "silly",
+  "userId": "managerId",
+  "username": "managerUserName",
   "password": "1234",
-  "role": "customer"
+  "role": "manager"
 }
 
-### 로그인
+### 로그인 - MANAGER
 POST localhost:19091/auth/sign-in
 Content-Type: application/json
 
 {
-  "userId": "sillyId",
+  "userId": "managerId",
+  "password": "1234"
+}
+
+### 로그인 - CUSTOMER
+POST localhost:19091/auth/sign-in
+Content-Type: application/json
+
+{
+  "userId": "customerId",
   "password": "1234"
 }

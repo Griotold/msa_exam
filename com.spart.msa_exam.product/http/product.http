@@ -1,9 +1,14 @@
 ### 상품 등록
 POST localhost:19091/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoic2lsbHlJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzExNzE3OSwiZXhwIjoxNzMzMTIwNzc5fQ.5wI7ipjNIWLWhuPqMQcO6U5DSpE23ugkosqt1pqXl7E8PUQ2RCZZQZMmLs42hEQy7AacyVGi5ybCl9QVlgvT8A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoibWFuYWdlcklkIiwicm9sZSI6Ik1BTkFHRVIiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJpYXQiOjE3MzMxMjAxMDcsImV4cCI6MTczMzEyMzcwN30.7J3JAoK_R_PuC1FWeuZkna__ENw4caF9fNZ4enOhGORDpNWeQvPqaNUqkY6Ifce4xTbCjmnxnOZ3jYND-A64Pg
 
 {
-  "name": "phone",
+  "name": "keyboard_3",
   "supplyPrice": "16000"
 }
+
+### 상품 등록
+GET localhost:19091/products?name=monitor
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoibWFuYWdlcklkIiwicm9sZSI6Ik1BTkFHRVIiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJpYXQiOjE3MzMxMjAxMDcsImV4cCI6MTczMzEyMzcwN30.7J3JAoK_R_PuC1FWeuZkna__ENw4caF9fNZ4enOhGORDpNWeQvPqaNUqkY6Ifce4xTbCjmnxnOZ3jYND-A64Pg
