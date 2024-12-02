@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:19095}
+  port: ${SERVER_PORT:19093}
 
 spring:
   datasource:
@@ -16,7 +16,10 @@ eureka:
     service-url:
       defaultZone: http://${EUREKA_HOST}:${EUREKA_PORT}/eureka/
 
-service:
-  jwt:
-    secret-key: ${JWT_SECRET_KEY}
-
+management:
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_ENDPOINT}
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:0.1}

@@ -1,7 +1,7 @@
 package com.spart.msa_exam.auth.domain.service;
 
+import com.spart.msa_exam.auth.application.common.exception.AuthErrorCode;
 import com.spart.msa_exam.auth.application.common.exception.AuthException;
-import com.spart.msa_exam.auth.application.common.exception.ErrorCode;
 import com.spart.msa_exam.auth.domain.entity.User;
 import com.spart.msa_exam.auth.domain.enums.Role;
 import com.spart.msa_exam.auth.domain.repository.UserRepository;
@@ -23,17 +23,17 @@ public class AuthService {
     /**
      * 사용자 등록
      *
-     * @param  userId 사용자 ID
-     * @Param  username 사용자명
-     * @Param  password 비밀번호
-     * @Param  role 권한
+     * @param userId 사용자 ID
      * @return 저장된 사용자
+     * @Param username 사용자명
+     * @Param password 비밀번호
+     * @Param role 권한
      */
     @Transactional
     public SignUpResponse signUp(String userId, String username, String password, String role) {
         // userId 중복 체크
         if (userRepository.findById(userId).isPresent()) {
-            throw new AuthException(ErrorCode.DUPLICATE_USERNAME);
+            throw new AuthException(AuthErrorCode.DUPLICATE_USERNAME);
         }
         User user = User.create(userId, username,
                 passwordEncoder.encode(password),
@@ -50,10 +50,10 @@ public class AuthService {
      */
     public String signIn(String userId, String password) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AuthException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new AuthException(ErrorCode.INVALID_PASSWORD);
+            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
 
         return jwtTokenProvider.createAccessToken(user.getUserId(), user.getRole());

@@ -1,6 +1,5 @@
 package com.spart.msa_exam.auth.application.usecase;
 
-import com.spart.msa_exam.auth.application.common.UseCase;
 import com.spart.msa_exam.auth.application.usecase.command.SignInCommand;
 import com.spart.msa_exam.auth.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
