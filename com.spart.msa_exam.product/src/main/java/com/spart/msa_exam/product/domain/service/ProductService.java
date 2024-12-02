@@ -5,8 +5,11 @@ import com.spart.msa_exam.product.application.common.exception.ProductException;
 import com.spart.msa_exam.product.domain.entity.Product;
 import com.spart.msa_exam.product.domain.repository.ProductRepository;
 import com.spart.msa_exam.product.domain.service.dto.ProductCreateResponse;
+import com.spart.msa_exam.product.domain.service.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +27,9 @@ public class ProductService {
             throw new ProductException(ProductErrorCode.DUPLICATE_PRODUCT_NAME);
         }
         return ProductCreateResponse.from(productRepository.save(Product.create(name, supplyPrice)));
+    }
+
+    public Page<ProductResponse> readAll(String name, Pageable pageable) {
+        return productRepository.findAll(name, pageable).map(ProductResponse::from);
     }
 }
