@@ -1,4 +1,4 @@
-package com.spart.msa_exam.auth.application.common;
+package com.spart.msa_exam.auth.application.usecase;
 
 import org.springframework.stereotype.Component;
 

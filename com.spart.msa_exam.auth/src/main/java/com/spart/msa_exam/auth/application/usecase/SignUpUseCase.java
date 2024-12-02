@@ -1,10 +1,8 @@
 package com.spart.msa_exam.auth.application.usecase;
 
-import com.spart.msa_exam.auth.application.common.UseCase;
 import com.spart.msa_exam.auth.application.usecase.command.SignUpCommand;
-import com.spart.msa_exam.auth.presentation.request.SignUpRequest;
-import com.spart.msa_exam.auth.domain.service.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.service.AuthService;
+import com.spart.msa_exam.auth.domain.service.dto.SignUpResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
