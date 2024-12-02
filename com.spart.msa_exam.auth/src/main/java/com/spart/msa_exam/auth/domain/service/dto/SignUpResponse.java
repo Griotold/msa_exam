@@ -1,4 +1,4 @@
-package com.spart.msa_exam.auth.application.dto;
+package com.spart.msa_exam.auth.domain.service.dto;
 
 import com.spart.msa_exam.auth.domain.entity.User;
 

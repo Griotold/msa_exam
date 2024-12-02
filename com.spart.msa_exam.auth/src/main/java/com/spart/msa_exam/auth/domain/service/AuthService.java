@@ -1,12 +1,11 @@
-package com.spart.msa_exam.auth.application.service;
+package com.spart.msa_exam.auth.domain.service;
 
 import com.spart.msa_exam.auth.application.common.exception.AuthException;
 import com.spart.msa_exam.auth.application.common.exception.ErrorCode;
-import com.spart.msa_exam.auth.application.dto.SignUpRequest;
-import com.spart.msa_exam.auth.application.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.entity.User;
 import com.spart.msa_exam.auth.domain.enums.Role;
 import com.spart.msa_exam.auth.domain.repository.UserRepository;
+import com.spart.msa_exam.auth.domain.service.dto.SignUpResponse;
 import com.spart.msa_exam.auth.infra.config.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,18 +23,21 @@ public class AuthService {
     /**
      * 사용자 등록
      *
-     * @param signUpRequest 사용자 정보
+     * @param  userId 사용자 ID
+     * @Param  username 사용자명
+     * @Param  password 비밀번호
+     * @Param  role 권한
      * @return 저장된 사용자
      */
     @Transactional
-    public SignUpResponse signUp(SignUpRequest signUpRequest) {
+    public SignUpResponse signUp(String userId, String username, String password, String role) {
         // userId 중복 체크
-        if (userRepository.findById(signUpRequest.userId()).isPresent()) {
+        if (userRepository.findById(userId).isPresent()) {
             throw new AuthException(ErrorCode.DUPLICATE_USERNAME);
         }
-        User user = User.create(signUpRequest.userId(), signUpRequest.username(),
-                passwordEncoder.encode(signUpRequest.password()),
-                Role.of(signUpRequest.role()));
+        User user = User.create(userId, username,
+                passwordEncoder.encode(password),
+                Role.of(role));
         return SignUpResponse.from(userRepository.save(user));
     }
 

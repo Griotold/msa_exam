@@ -2,10 +2,10 @@ package com.spart.msa_exam.auth.application.service;
 
 
 import com.spart.msa_exam.auth.application.common.exception.AuthException;
-import com.spart.msa_exam.auth.application.dto.SignUpRequest;
-import com.spart.msa_exam.auth.application.dto.SignUpResponse;
+import com.spart.msa_exam.auth.domain.service.dto.SignUpResponse;
 import com.spart.msa_exam.auth.domain.entity.User;
 import com.spart.msa_exam.auth.domain.repository.UserRepository;
+import com.spart.msa_exam.auth.domain.service.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +35,13 @@ class AuthServiceTest {
     @DisplayName("회원가입 성공 테스트")
     void signUpSuccess() {
         // given
-        SignUpRequest request = new SignUpRequest("testId", "testName", "password", "customer");
+        String userId = "testId";
+        String username = "testName";
+        String password = "password";
+        String role = "customer";
 
         // when
-        SignUpResponse response = authService.signUp(request);
+        SignUpResponse response = authService.signUp(userId, username, password, role);
 
         // then
         assertThat(response.userId()).isEqualTo("testId");
@@ -52,8 +55,12 @@ class AuthServiceTest {
     @DisplayName("로그인 성공 테스트")
     void signInSuccess() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest("testId", "testName", "password", "customer");
-        authService.signUp(signUpRequest);
+        String userId = "testId";
+        String username = "testName";
+        String password = "password";
+        String role = "customer";
+
+        authService.signUp(userId, username, password, role);
 
         // when
         String token = authService.signIn("testId", "password");
@@ -66,8 +73,12 @@ class AuthServiceTest {
     @DisplayName("잘못된 비밀번호로 로그인을 시도하면 AuthException 예외가 발생한다.")
     void signInFailWithWrongPassword() {
         // given
-        SignUpRequest signUpRequest = new SignUpRequest("testId", "testName", "password", "customer");
-        authService.signUp(signUpRequest);
+        String userId = "testId";
+        String username = "testName";
+        String password = "password";
+        String role = "customer";
+
+        authService.signUp(userId, username, password, role);
 
         // when & then
         assertThatThrownBy(() -> authService.signIn("testId", "wrongPassword"))
@@ -88,13 +99,16 @@ class AuthServiceTest {
     @DisplayName("이미 존재하는 userId로 회원가입 시도하면 AuthException 예외가 발생한다.")
     void signUpFailWithExistingUserId() {
         // given
-        SignUpRequest initialRequest = new SignUpRequest("existingId", "testName", "password", "customer");
-        authService.signUp(initialRequest);
+        String existingId = "existingId";
+        String username = "existingName";
+        String password = "existingPassword";
+        String role = "customer";
 
-        SignUpRequest duplicateRequest = new SignUpRequest("existingId", "anotherName", "anotherPassword", "customer");
+        authService.signUp(existingId, username, password, role);
 
         // when & then
-        assertThatThrownBy(() -> authService.signUp(duplicateRequest))
+        assertThatThrownBy(() ->
+                authService.signUp(existingId, "anotherName", "anotherPassowrd", "customer"))
                 .isInstanceOf(AuthException.class)
                 .hasMessage("유저 이름이 이미 존재합니다.");
     }
