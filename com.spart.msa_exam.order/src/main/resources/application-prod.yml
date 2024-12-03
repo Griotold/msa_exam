@@ -23,3 +23,12 @@ management:
   tracing:
     sampling:
       probability: ${TRACING_SAMPLING_PROBABILITY:0.1}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        failureRateThreshold: 30
+        waitDurationInOpenState: 30s

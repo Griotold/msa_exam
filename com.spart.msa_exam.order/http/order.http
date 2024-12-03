@@ -1,7 +1,19 @@
 ### 주문 생성
 POST localhost:19091/orders
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzE5MDQzOCwiZXhwIjoxNzMzMTk0MDM4fQ.SYGQODeXzj0FnN7KrFFDYPM5-pJsacDL-OI7luAP4vlb26Pkgb9xoHG3vWa2SEn0CxVgCmiSS7QL-tfQ3SrPIw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzE5NDk2MSwiZXhwIjoxNzMzMTk4NTYxfQ.ZcIyrutVvPM8N01RIx4hCsMH6DxJi46zAfu-ypVzUlOCRA3PL8rwWc0ukfjRAP3tYLzYZk4sDF9wodVRM0DgSw
+
+{
+  "productIds": [
+    1,
+    2
+  ]
+}
+
+### 주문 실패
+POST localhost:19091/orders?fail=true
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzE5NDk2MSwiZXhwIjoxNzMzMTk4NTYxfQ.ZcIyrutVvPM8N01RIx4hCsMH6DxJi46zAfu-ypVzUlOCRA3PL8rwWc0ukfjRAP3tYLzYZk4sDF9wodVRM0DgSw
 
 {
   "productIds": [

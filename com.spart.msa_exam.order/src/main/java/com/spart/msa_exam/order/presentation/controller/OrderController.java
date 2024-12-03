@@ -6,10 +6,7 @@ import com.spart.msa_exam.order.domain.service.dto.OrderCreateResponse;
 import com.spart.msa_exam.order.presentation.request.OrderCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +16,9 @@ public class OrderController {
     private final OrderCreateUseCase orderCreateUseCase;
 
     @PostMapping
-    public ApiResponse<OrderCreateResponse> create(@RequestBody OrderCreateRequest request) {
-        OrderCreateResponse response = orderCreateUseCase.execute(request.toCommand());
+    public ApiResponse<OrderCreateResponse> create(@RequestBody OrderCreateRequest request,
+                                                   @RequestParam(name = "fail", required = false) Boolean isfail) {
+        OrderCreateResponse response = orderCreateUseCase.execute(request.toCommand(), isfail);
         return ApiResponse.success(HttpStatus.OK, "Create Order Success", response);
     }
 }
