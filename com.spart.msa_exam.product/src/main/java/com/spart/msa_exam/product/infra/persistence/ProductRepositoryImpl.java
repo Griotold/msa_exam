@@ -52,6 +52,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         return new PageImpl<>(contents, pageable, total);
     }
 
+    @Override
+    public List<Product> findAllById(List<Long> ids) {
+        return productJpaRepository.findAllById(ids);
+    }
+
     private BooleanExpression nameContains(String name) {
         return name != null ? product.name.containsIgnoreCase(name) : null;
     }

@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -31,5 +34,18 @@ public class ProductService {
 
     public Page<ProductResponse> readAll(String name, Pageable pageable) {
         return productRepository.findAll(name, pageable).map(ProductResponse::from);
+    }
+
+    public List<ProductResponse> findAllinIds(List<Long> ids) {
+        List<Product> products = productRepository.findAllById(ids);
+
+        // 요청한 상품 ID 개수와 찾은 상품 개수가 다르면 예외 발생
+        if (products.size() != ids.size()) {
+            throw new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND);
+        }
+
+        return products.stream()
+                .map(ProductResponse::from)
+                .collect(Collectors.toList());
     }
 }

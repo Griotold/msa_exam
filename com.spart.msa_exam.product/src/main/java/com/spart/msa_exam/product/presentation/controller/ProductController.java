@@ -3,9 +3,10 @@ package com.spart.msa_exam.product.presentation.controller;
 import com.spart.msa_exam.product.application.common.ApiResponse;
 import com.spart.msa_exam.product.application.common.exception.ProductErrorCode;
 import com.spart.msa_exam.product.application.common.exception.ProductException;
+import com.spart.msa_exam.product.application.usecase.ProductBatchGetUseCase;
 import com.spart.msa_exam.product.application.usecase.ProductCreateUseCase;
 import com.spart.msa_exam.product.application.usecase.ProductListUseCase;
-import com.spart.msa_exam.product.application.usecase.command.ProductListCommand;
+import com.spart.msa_exam.product.application.usecase.command.ProductBatchGetCommand;
 import com.spart.msa_exam.product.domain.service.dto.ProductCreateResponse;
 import com.spart.msa_exam.product.domain.service.dto.ProductResponse;
 import com.spart.msa_exam.product.presentation.request.ProductCreateRequest;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
@@ -23,6 +26,7 @@ public class ProductController {
 
     private final ProductCreateUseCase productCreateUseCase;
     private final ProductListUseCase productListUseCase;
+    private final ProductBatchGetUseCase productBatchGetUseCase;
 
     @PostMapping
     public ApiResponse<ProductCreateResponse> create(@RequestBody ProductCreateRequest request,
@@ -40,4 +44,10 @@ public class ProductController {
         Page<ProductResponse> response = productListUseCase.execute(new ProductListRequest(name, pageable).toCommand());
         return ApiResponse.success(HttpStatus.OK, "Get Product List", response);
     }
+
+    @GetMapping("/batch")
+    List<ProductResponse> getProducts(@RequestParam List<Long> productIds) {
+        return productBatchGetUseCase.execute(new ProductBatchGetCommand(productIds));
+    }
+
 }
