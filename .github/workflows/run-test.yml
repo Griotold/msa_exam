@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [auth, eureka_server, gateway, product]  # 테스트할 서비스들
+        service: [auth, eureka_server, gateway, product, order]  # 테스트할 서비스들
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
