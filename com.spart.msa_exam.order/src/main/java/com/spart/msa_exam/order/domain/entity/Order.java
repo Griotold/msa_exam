@@ -32,4 +32,10 @@ public class Order {
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
     }
+
+    public void updateOrderProducts(List<OrderProduct> newOrderProducts) {
+        this.orderProducts.clear();
+        this.orderProducts.addAll(newOrderProducts);
+//        this.orderProducts = newOrderProducts;
+    }
 }

@@ -21,3 +21,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvb
     2
   ]
 }
+
+### 주문 업데이트
+PUT localhost:19091/orders/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzIwMjQ3MSwiZXhwIjoxNzMzMjA2MDcxfQ.1hFtNs2dSTUeBQ1vmQMOB7Yk5KQavK-S1tzzbx8RESv2RMKsDXQHIYfpQIHVhhvOlbjwrOxRz58uzdUYGgyj_Q
+
+{
+  "productIds": [
+    3,
+    4
+  ]
+}
