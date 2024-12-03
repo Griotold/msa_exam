@@ -6,6 +6,7 @@ import com.spart.msa_exam.order.domain.entity.Order;
 import com.spart.msa_exam.order.domain.entity.OrderProduct;
 import com.spart.msa_exam.order.domain.repository.OrderRepository;
 import com.spart.msa_exam.order.domain.service.dto.OrderCreateResponse;
+import com.spart.msa_exam.order.domain.service.dto.OrderProductResponse;
 import com.spart.msa_exam.order.domain.service.dto.OrderUpdateResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +65,15 @@ public class OrderService {
         log.info("Order updated successfully with ID: {}", updatedOrder.getId());
 
         return OrderUpdateResponse.from(updatedOrder);
+    }
 
+    public List<OrderProductResponse> getOrderProducts(Long orderId) {
+        log.info("Retrieving order productIds by orderId: {}", orderId);
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderException(OrderErrorCode.ORDER_NOT_FOUND));
 
+        return order.getOrderProducts().stream()
+                .map(OrderProductResponse::from)
+                .collect(Collectors.toList());
     }
 }

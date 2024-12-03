@@ -33,3 +33,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvb
     4
   ]
 }
+
+### 주문 단건 조회
+GET localhost:19091/orders/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoiY3VzdG9tZXJJZCIsInJvbGUiOiJDVVNUT01FUiIsImlzcyI6ImF1dGgtc2VydmljZSIsImlhdCI6MTczMzIwNDExMCwiZXhwIjoxNzMzMjA3NzEwfQ.ELoISltiBSam0nPeaQgzVjOmrOuW3Ekk7EkNECuW7Jae7U988aAPP0I1C3yyIO4gKVEvwJyujXwUTnQSp4i03A
