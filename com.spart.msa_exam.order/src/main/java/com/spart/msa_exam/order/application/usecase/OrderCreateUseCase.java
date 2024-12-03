@@ -18,7 +18,9 @@ public class OrderCreateUseCase {
     private final ProductFeignClient productFeignClient;
 
     public OrderCreateResponse execute(OrderCreateCommand command) {
+        log.info("OrderCreateUseCase.command : {}", command);
         List<ProductResponse> productResponses = productFeignClient.getProducts(command.productIds());
+        log.info("OrderCreateUseCase.productResponses : {}", productResponses);
         return orderService.create(productResponses.stream().map(ProductResponse::id).toList());
     }
 }

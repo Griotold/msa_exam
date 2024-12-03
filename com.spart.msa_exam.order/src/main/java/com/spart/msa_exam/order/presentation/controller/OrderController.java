@@ -19,7 +19,7 @@ public class OrderController {
     private final OrderCreateUseCase orderCreateUseCase;
 
     @PostMapping
-    public ApiResponse<?> create(@RequestBody OrderCreateRequest request) {
+    public ApiResponse<OrderCreateResponse> create(@RequestBody OrderCreateRequest request) {
         OrderCreateResponse response = orderCreateUseCase.execute(request.toCommand());
         return ApiResponse.success(HttpStatus.OK, "Create Order Success", response);
     }
