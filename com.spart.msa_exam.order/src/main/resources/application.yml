@@ -6,12 +6,20 @@ spring:
     name: order-service
   profiles:
     active: dev
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      username: default
+      password: systempass
 
 eureka:
   client:
