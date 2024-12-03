@@ -4,6 +4,7 @@ import com.spart.msa_exam.order.application.common.exception.OrderException;
 import com.spart.msa_exam.order.domain.entity.Order;
 import com.spart.msa_exam.order.domain.repository.OrderRepository;
 import com.spart.msa_exam.order.domain.service.dto.OrderCreateResponse;
+import com.spart.msa_exam.order.domain.service.dto.OrderProductResponse;
 import com.spart.msa_exam.order.domain.service.dto.OrderUpdateResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -91,5 +93,34 @@ class OrderServiceTest {
         assertThatThrownBy(() -> orderService.update(createResponse.orderId(), emptyProductIds))
                 .isInstanceOf(OrderException.class)
                 .hasFieldOrPropertyWithValue("message", "상품 ID 리스트는 null이거나 비어 있을 수 없습니다.");
+    }
+
+    @DisplayName("주문 상품 목록 조회 성공")
+    @Test
+    void getOrderProducts_ShouldReturnOrderProducts() {
+        // Given
+        List<Long> productIds = Arrays.asList(1L, 2L, 3L);
+        OrderCreateResponse createResponse = orderService.create(productIds);
+
+        // When
+        List<OrderProductResponse> orderProducts = orderService.getOrderProducts(createResponse.orderId());
+
+        // Then
+        assertThat(orderProducts).isNotNull();
+        assertThat(orderProducts).hasSize(productIds.size());
+        assertThat(orderProducts.stream().map(OrderProductResponse::productId).collect(Collectors.toList()))
+                .containsExactlyInAnyOrderElementsOf(productIds);
+    }
+
+    @DisplayName("존재하지 않는 주문의 상품 목록 조회 시 예외 발생")
+    @Test
+    void getOrderProducts_ShouldThrowException_WhenOrderNotFound() {
+        // Given
+        Long nonExistentOrderId = 999L;
+
+        // When & Then
+        assertThatThrownBy(() -> orderService.getOrderProducts(nonExistentOrderId))
+                .isInstanceOf(OrderException.class)
+                .hasFieldOrPropertyWithValue("message", "주문을 찾을 수 없습니다.");
     }
 }
