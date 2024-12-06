@@ -63,6 +63,7 @@ public class LocalJwtAuthenticationFilter implements GlobalFilter {
                     .header("X-Role", claims.get("role").toString())
                     .build();
             // 추가적인 검증 로직 (예: 토큰 만료 여부 확인 등)을 여기에 추가할 수 있습니다.
+            // todo auth-service를 호출해서 해당 회원이 있는지를 검증해야해 함. verfyUser
             return true;
         } catch (Exception e) {
             return false;

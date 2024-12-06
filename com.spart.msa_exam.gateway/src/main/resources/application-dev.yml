@@ -13,6 +13,8 @@ spring:
           uri: lb://product-service
           predicates:
             - Path=/products/**
+          filters:
+            - name: WeightedLoadBalancerFilter
         - id: auth-service
           uri: lb://auth-service
           predicates:
